@@ -1,5 +1,3 @@
-const sanitize = (value) => value.trim();
-
 const RAPID_API_KEY = '9a7e41dc9amsh86590bf61d0335dp16d3bdjsn5b091f741367';
 
 const fetchResult = async (searchKeyword) => {
@@ -22,7 +20,15 @@ const fetchResult = async (searchKeyword) => {
   return data;
 };
 
-const clearContent = (element) => (element.innerHTML = '');
+const sanitize = (value) => value.trim();
+const addContent = (element, text) => (element.innerHTML = text);
+const clearContent = (element) => addContent(element, '');
+const createElement = (element) => document.createElement(element);
+const setAttribute = (element, property, value) =>
+  element.setAttribute(property, value);
+const addClass = (element, className) =>
+  setAttribute(element, 'class', className);
+const addId = (element, id) => setAttribute(element, 'id', id);
 
 const init = () => {
   window.addEventListener('DOMContentLoaded', (event) => {
@@ -45,34 +51,35 @@ const init = () => {
 
         clearContent(mainContent);
 
-        const wordElement = document.createElement('h1');
-        wordElement.setAttribute('id', 'word');
-        wordElement.innerText = word;
+        const wordElement = createElement('h1');
+        addId(wordElement, 'word');
+        addContent(wordElement, word);
+
         mainContent.appendChild(wordElement);
 
-        const ul = document.createElement('ul');
-        ul.setAttribute('class', 'results');
+        const ul = createElement('ul');
+        addClass(ul, 'results');
         mainContent.appendChild(ul);
 
         results.forEach((result) => {
           const { definition, partOfSpeech, examples } = result;
-          const li = document.createElement('li');
-          li.setAttribute('class', 'result');
+          const li = createElement('li');
+          addClass(li, 'result');
 
-          const pPartOfSpeech = document.createElement('p');
-          pPartOfSpeech.setAttribute('class', 'partOfSpeech');
-          pPartOfSpeech.innerText = partOfSpeech;
+          const pPartOfSpeech = createElement('p');
+          addClass(pPartOfSpeech, 'partOfSpeech');
+          addContent(pPartOfSpeech, partOfSpeech);
 
-          const pDefinition = document.createElement('p');
-          pDefinition.setAttribute('class', 'definition');
-          pDefinition.innerText = definition;
+          const pDefinition = createElement('p');
+          addClass(pDefinition, 'definition');
+          addContent(pDefinition, definition);
 
-          const examplesUL = document.createElement('ul');
+          const examplesUL = createElement('ul');
           examples &&
             examples.forEach((example) => {
-              const exampleLi = document.createElement('li');
-              exampleLi.setAttribute('class', 'example');
-              exampleLi.innerText = example;
+              const exampleLi = createElement('li');
+              addClass(exampleLi, 'example');
+              addContent(exampleLi, example);
               examplesUL.appendChild(exampleLi);
             });
           li.appendChild(pPartOfSpeech);
@@ -86,9 +93,9 @@ const init = () => {
         clearContent(mainContent);
 
         const noSearchResult = 'No results for that word.';
-        const noSearchElement = document.createElement('p');
-        noSearchElement.setAttribute('id', 'informaticMessage');
-        noSearchElement.innerText = noSearchResult;
+        const noSearchElement = createElement('p');
+        addId(noSearchElement, 'informaticMessage');
+        addContent(noSearchElement, noSearchResult);
         mainContent.appendChild(noSearchElement);
       }
     });
