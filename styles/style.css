@@ -1,0 +1,132 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background-image: linear-gradient(
+    to right bottom,
+    #b6fffa,
+    #98e4ff,
+    #80b3ff,
+    #687eff
+  );
+  min-height: 100vh;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+main {
+  width: 80vw;
+  min-height: 80vh;
+  height: auto;
+  margin: 0 auto;
+  background-color: #687eff;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+#search__form {
+  display: flex;
+  justify-content: center;
+}
+
+#search__label {
+  font-size: 24px;
+  font-variant: small-caps;
+  padding: 0px 10px;
+}
+
+#search__input {
+  border: none;
+  border-bottom: 1px solid #b6fffa;
+  background-color: inherit;
+  min-width: 50%;
+  max-width: 80%;
+  font-size: 24px;
+  color: #b6fffa;
+  padding: 0px 10px;
+  text-align: center;
+}
+
+#search__input:focus {
+  outline: none;
+  border-bottom: 1px solid #80b3ff;
+  background-color: inherit;
+}
+
+#search__button {
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  padding: 0 10px;
+}
+
+#search__button:hover {
+  background-color: transparent;
+  color: #b6fffa;
+  transition: color 0.5s ease-in;
+  border: none;
+  font-size: 16px;
+}
+
+#search__result {
+  padding: 10px;
+  word-break: break-word;
+  text-align: justify;
+}
+
+#informaticMessage {
+  text-align: center;
+}
+
+#word {
+  font-size: 32px;
+  font-weight: bold;
+  text-decoration-line: underline;
+  text-decoration-color: #b6fffa;
+}
+
+#word:after {
+  border-style: dashed;
+}
+
+.results > .result {
+  margin: 10px auto;
+}
+
+.result > * {
+  margin: auto;
+}
+
+.partOfSpeech {
+  font-style: italic;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.definition {
+  font-size: 20px;
+}
+
+.example {
+  font-size: 16px;
+  color: #1e1e1e;
+  font-style: italic;
+}
+
+#footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.fa-code {
+  color: cyan;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.fa-heart {
+  color: red;
+  padding-left: 5px;
+  padding-right: 5px;
+}

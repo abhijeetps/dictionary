@@ -9,24 +9,36 @@
       src="https://kit.fontawesome.com/7915df9133.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header></header>
     <main>
       <form id="search__form">
-        <label for="search__input">Search: </label>
-        <input type="text" name="search__input" id="search__input" />
+        <label for="search__input" id="search__label">Search: </label>
+        <input type="text" name="search__input" id="search__input" autofocus />
         <button type="submit" id="search__button">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
       <section id="search__result">
-        <p id="informaticMessage">
-          Click on search button to look for for word in dictionary.
-        </p>
+        <p id="informaticMessage">Enter a word and click on search button.</p>
       </section>
     </main>
-    <footer></footer>
+    <footer>
+      <span id="footer">
+        Made with <i class="fa-solid fa-heart"></i>
+        by
+        <address>
+          <a href="https://abhijeetps.tech">Abhijeet Singh</a>
+        </address>
+      </span>
+    </footer>
     <script src="scripts/index.js" defer></script>
   </body>
 </html>
