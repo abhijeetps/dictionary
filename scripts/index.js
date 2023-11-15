@@ -103,11 +103,23 @@ const memoize = (func) => {
 
 const fetchResultMemoize = memoize(fetchResult);
 
+const searchingDisplay = () => {
+  const mainContent = document.getElementById('search__result');
+  clearContent(mainContent);
+
+  const searchingMessage = 'Searching...';
+  const searchingMessageElement = createElement('p');
+  addId(searchingMessageElement, 'informaticMessage');
+  addContent(searchingMessageElement, searchingMessage);
+  mainContent.appendChild(searchingMessageElement);
+};
+
 const init = () => {
   window.addEventListener('DOMContentLoaded', (event) => {
     const searchForm = document.getElementById('search__form');
     searchForm.addEventListener('submit', async (event) => {
       event.preventDefault();
+      searchingDisplay();
       const searchInput = document.getElementById('search__input');
       const searchKeyword = sanitize(searchInput.value);
       let data = null;
