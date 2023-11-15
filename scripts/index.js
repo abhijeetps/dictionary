@@ -1,9 +1,9 @@
 const sanitize = (value) => value.trim();
 
-const RAPID_API_KEY = 'c0pyY0urRap1dAPIK3yH3r3';
+const RAPID_API_KEY = '9a7e41dc9amsh86590bf61d0335dp16d3bdjsn5b091f741367';
 
 const fetchResult = async (searchKeyword) => {
-  const url = `https://wordsapiv1.p.rapidapi.com/words/${searchKeyword}/definitions`;
+  const url = `https://wordsapiv1.p.rapidapi.com/words/${searchKeyword}`;
   const options = {
     method: 'GET',
     headers: {
@@ -12,15 +12,17 @@ const fetchResult = async (searchKeyword) => {
     },
   };
 
-  let results = null;
+  let data = null;
   try {
     const response = await fetch(url, options);
-    results = await response.json();
+    data = await response.json();
   } catch (error) {
     console.error(error);
   }
-  return results;
+  return data;
 };
+
+const clearContent = (element) => (element.innerHTML = '');
 
 const init = () => {
   window.addEventListener('DOMContentLoaded', (event) => {
@@ -29,17 +31,19 @@ const init = () => {
       event.preventDefault();
       const searchInput = document.getElementById('search__input');
       const searchKeyword = sanitize(searchInput.value);
-      let results = null;
+      let data = null;
       try {
-        results = await fetchResult(searchKeyword);
+        data = await fetchResult(searchKeyword);
       } catch (error) {
         console.log('There was some error: ', error);
       }
-      if (results && results.definitions) {
-        const { word, definitions } = results;
+
+      if (data && data.results) {
+        const { word, results } = data;
 
         const mainContent = document.getElementById('search__result');
-        mainContent.innerHTML = '';
+
+        clearContent(mainContent);
 
         const wordElement = document.createElement('h1');
         wordElement.innerText = word;
@@ -48,14 +52,32 @@ const init = () => {
         const ul = document.createElement('ul');
         mainContent.appendChild(ul);
 
-        definitions.forEach((definition) => {
+        results.forEach((result) => {
+          const { definition, partOfSpeech, examples } = result;
           const li = document.createElement('li');
-          li.innerText = definition.definition;
+
+          const pDefinition = document.createElement('p');
+          pDefinition.innerText = definition;
+          const pPartOfSpeech = document.createElement('p');
+          pPartOfSpeech.innerText = partOfSpeech;
+
+          const examplesUL = document.createElement('ul');
+          examples &&
+            examples.forEach((example) => {
+              const exampleLi = document.createElement('li');
+              exampleLi.innerText = example;
+              examplesUL.appendChild(exampleLi);
+            });
+          li.appendChild(pDefinition);
+          li.appendChild(pPartOfSpeech);
+          li.appendChild(examplesUL);
           ul.appendChild(li);
         });
       } else {
         const mainContent = document.getElementById('search__result');
-        mainContent.innerHTML = '';
+
+        clearContent(mainContent);
+
         const noSearchResult = 'No results for that word.';
         const noSearchElement = document.createElement('p');
         noSearchElement.innerText = noSearchResult;
