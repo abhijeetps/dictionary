@@ -42,6 +42,51 @@ const noSearchResultDisplay = () => {
   mainContent.appendChild(noSearchElement);
 };
 
+const searchResultDisplay = (data) => {
+  const { word, results } = data;
+
+  const mainContent = document.getElementById('search__result');
+
+  clearContent(mainContent);
+
+  const wordElement = createElement('h1');
+  addId(wordElement, 'word');
+  addContent(wordElement, word);
+
+  mainContent.appendChild(wordElement);
+
+  const ul = createElement('ul');
+  addClass(ul, 'results');
+  mainContent.appendChild(ul);
+
+  results.forEach((result) => {
+    const { definition, partOfSpeech, examples } = result;
+    const li = createElement('li');
+    addClass(li, 'result');
+
+    const pPartOfSpeech = createElement('p');
+    addClass(pPartOfSpeech, 'partOfSpeech');
+    addContent(pPartOfSpeech, partOfSpeech);
+
+    const pDefinition = createElement('p');
+    addClass(pDefinition, 'definition');
+    addContent(pDefinition, definition);
+
+    const examplesUL = createElement('ul');
+    examples &&
+      examples.forEach((example) => {
+        const exampleLi = createElement('li');
+        addClass(exampleLi, 'example');
+        addContent(exampleLi, example);
+        examplesUL.appendChild(exampleLi);
+      });
+    li.appendChild(pPartOfSpeech);
+    li.appendChild(pDefinition);
+    li.appendChild(examplesUL);
+    ul.appendChild(li);
+  });
+};
+
 const init = () => {
   window.addEventListener('DOMContentLoaded', (event) => {
     const searchForm = document.getElementById('search__form');
@@ -50,6 +95,7 @@ const init = () => {
       const searchInput = document.getElementById('search__input');
       const searchKeyword = sanitize(searchInput.value);
       let data = null;
+      if(s)
       try {
         data = await fetchResult(searchKeyword);
       } catch (error) {
@@ -57,48 +103,7 @@ const init = () => {
       }
 
       if (data && data.results) {
-        const { word, results } = data;
-
-        const mainContent = document.getElementById('search__result');
-
-        clearContent(mainContent);
-
-        const wordElement = createElement('h1');
-        addId(wordElement, 'word');
-        addContent(wordElement, word);
-
-        mainContent.appendChild(wordElement);
-
-        const ul = createElement('ul');
-        addClass(ul, 'results');
-        mainContent.appendChild(ul);
-
-        results.forEach((result) => {
-          const { definition, partOfSpeech, examples } = result;
-          const li = createElement('li');
-          addClass(li, 'result');
-
-          const pPartOfSpeech = createElement('p');
-          addClass(pPartOfSpeech, 'partOfSpeech');
-          addContent(pPartOfSpeech, partOfSpeech);
-
-          const pDefinition = createElement('p');
-          addClass(pDefinition, 'definition');
-          addContent(pDefinition, definition);
-
-          const examplesUL = createElement('ul');
-          examples &&
-            examples.forEach((example) => {
-              const exampleLi = createElement('li');
-              addClass(exampleLi, 'example');
-              addContent(exampleLi, example);
-              examplesUL.appendChild(exampleLi);
-            });
-          li.appendChild(pPartOfSpeech);
-          li.appendChild(pDefinition);
-          li.appendChild(examplesUL);
-          ul.appendChild(li);
-        });
+        searchResultDisplay(data);
       } else {
         noSearchResultDisplay();
       }
