@@ -87,6 +87,22 @@ const searchResultDisplay = (data) => {
   });
 };
 
+const memoize = (func) => {
+  const cache = {};
+  return function (...args) {
+    const key = JSON.stringify(args);
+    if (cache[key]) {
+      return cache[key];
+    } else {
+      const result = func.apply(this, args);
+      cache[key] = result;
+      return result;
+    }
+  };
+};
+
+const fetchResultMemoize = memoize(fetchResult);
+
 const init = () => {
   window.addEventListener('DOMContentLoaded', (event) => {
     const searchForm = document.getElementById('search__form');
@@ -97,7 +113,7 @@ const init = () => {
       let data = null;
       if (searchKeyword) {
         try {
-          data = await fetchResult(searchKeyword);
+          data = await fetchResultMemoize(searchKeyword);
         } catch (error) {
           console.log('There was some error: ', error);
         }
