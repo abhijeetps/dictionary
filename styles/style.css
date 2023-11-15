@@ -7,7 +7,7 @@ body {
     #80b3ff,
     #687eff
   );
-  height: 100vh;
+  min-height: 100vh;
   width: auto;
   display: flex;
   justify-content: center;
@@ -17,6 +17,7 @@ body {
 main {
   width: 80vw;
   min-height: 80vh;
+  height: auto;
   margin: 0 auto;
   background-color: #687eff;
   padding: 20px;
@@ -43,6 +44,7 @@ main {
   font-size: 24px;
   color: #b6fffa;
   padding: 0px 10px;
+  text-align: center;
 }
 
 #search__input:focus {
@@ -67,7 +69,48 @@ main {
 }
 
 #search__result {
+  padding: 10px;
+  word-break: break-word;
+  text-align: justify;
+}
+
+#informaticMessage {
   text-align: center;
+}
+
+#word {
+  font-size: 32px;
+  font-weight: bold;
+  text-decoration-line: underline;
+  text-decoration-color: #b6fffa;
+}
+
+#word:after {
+  border-style: dashed;
+}
+
+.results > .result {
+  margin: 10px auto;
+}
+
+.result > * {
+  margin: auto;
+}
+
+.partOfSpeech {
+  font-style: italic;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.definition {
+  font-size: 20px;
+}
+
+.example {
+  font-size: 16px;
+  color: #1e1e1e;
+  font-style: italic;
 }
 
 #footer {

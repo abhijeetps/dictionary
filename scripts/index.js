@@ -46,30 +46,37 @@ const init = () => {
         clearContent(mainContent);
 
         const wordElement = document.createElement('h1');
+        wordElement.setAttribute('id', 'word');
         wordElement.innerText = word;
         mainContent.appendChild(wordElement);
 
         const ul = document.createElement('ul');
+        ul.setAttribute('class', 'results');
         mainContent.appendChild(ul);
 
         results.forEach((result) => {
           const { definition, partOfSpeech, examples } = result;
           const li = document.createElement('li');
+          li.setAttribute('class', 'result');
+
+          const pPartOfSpeech = document.createElement('p');
+          pPartOfSpeech.setAttribute('class', 'partOfSpeech');
+          pPartOfSpeech.innerText = partOfSpeech;
 
           const pDefinition = document.createElement('p');
+          pDefinition.setAttribute('class', 'definition');
           pDefinition.innerText = definition;
-          const pPartOfSpeech = document.createElement('p');
-          pPartOfSpeech.innerText = partOfSpeech;
 
           const examplesUL = document.createElement('ul');
           examples &&
             examples.forEach((example) => {
               const exampleLi = document.createElement('li');
+              exampleLi.setAttribute('class', 'example');
               exampleLi.innerText = example;
               examplesUL.appendChild(exampleLi);
             });
-          li.appendChild(pDefinition);
           li.appendChild(pPartOfSpeech);
+          li.appendChild(pDefinition);
           li.appendChild(examplesUL);
           ul.appendChild(li);
         });
@@ -80,6 +87,7 @@ const init = () => {
 
         const noSearchResult = 'No results for that word.';
         const noSearchElement = document.createElement('p');
+        noSearchElement.setAttribute('id', 'informaticMessage');
         noSearchElement.innerText = noSearchResult;
         mainContent.appendChild(noSearchElement);
       }
