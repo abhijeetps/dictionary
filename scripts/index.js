@@ -30,6 +30,18 @@ const addClass = (element, className) =>
   setAttribute(element, 'class', className);
 const addId = (element, id) => setAttribute(element, 'id', id);
 
+const noSearchResultDisplay = () => {
+  const mainContent = document.getElementById('search__result');
+
+  clearContent(mainContent);
+
+  const noSearchResult = 'No results for that word.';
+  const noSearchElement = createElement('p');
+  addId(noSearchElement, 'informaticMessage');
+  addContent(noSearchElement, noSearchResult);
+  mainContent.appendChild(noSearchElement);
+};
+
 const init = () => {
   window.addEventListener('DOMContentLoaded', (event) => {
     const searchForm = document.getElementById('search__form');
@@ -88,15 +100,7 @@ const init = () => {
           ul.appendChild(li);
         });
       } else {
-        const mainContent = document.getElementById('search__result');
-
-        clearContent(mainContent);
-
-        const noSearchResult = 'No results for that word.';
-        const noSearchElement = createElement('p');
-        addId(noSearchElement, 'informaticMessage');
-        addContent(noSearchElement, noSearchResult);
-        mainContent.appendChild(noSearchElement);
+        noSearchResultDisplay();
       }
     });
   });
