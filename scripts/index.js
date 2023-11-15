@@ -95,17 +95,18 @@ const init = () => {
       const searchInput = document.getElementById('search__input');
       const searchKeyword = sanitize(searchInput.value);
       let data = null;
-      if(s)
-      try {
-        data = await fetchResult(searchKeyword);
-      } catch (error) {
-        console.log('There was some error: ', error);
-      }
+      if (searchKeyword) {
+        try {
+          data = await fetchResult(searchKeyword);
+        } catch (error) {
+          console.log('There was some error: ', error);
+        }
 
-      if (data && data.results) {
-        searchResultDisplay(data);
-      } else {
-        noSearchResultDisplay();
+        if (data && data.results) {
+          searchResultDisplay(data);
+        } else {
+          noSearchResultDisplay();
+        }
       }
     });
   });
