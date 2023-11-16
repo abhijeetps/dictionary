@@ -119,11 +119,11 @@ const init = () => {
     const searchForm = document.getElementById('search__form');
     searchForm.addEventListener('submit', async (event) => {
       event.preventDefault();
-      searchingDisplay();
       const searchInput = document.getElementById('search__input');
       const searchKeyword = sanitize(searchInput.value);
       let data = null;
       if (searchKeyword) {
+        searchingDisplay();
         try {
           data = await fetchResultMemoize(searchKeyword);
         } catch (error) {
