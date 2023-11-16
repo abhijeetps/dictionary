@@ -9,6 +9,7 @@
   --less-light: #e0e0e0;
   --dark-heart: #e53935;
   --light-heart: #e53935;
+  --gold: #ffc107;
 }
 
 body {
@@ -23,6 +24,36 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+#header-icon {
+  height: 24px;
+  width: auto;
+  margin-top: 27px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: var(--lightest);
+}
+
+#brand {
+  display: flex;
+  color: var(--lightest);
+  margin-left: 5vw;
+}
+
+#favourites {
+  margin-top: 27px;
+  margin-right: 5vw;
+}
+
+.fa-star {
+  color: var(--gold);
+  font-size: 24px;
 }
 
 main {
