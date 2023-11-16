@@ -114,7 +114,15 @@ const searchingDisplay = () => {
   mainContent.appendChild(searchingMessageElement);
 };
 
+const initTheme = () => {
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+  if (currentTheme === 'light') {
+    changeTheme('dark');
+  }
+};
+
 const init = () => {
+  initTheme();
   window.addEventListener('DOMContentLoaded', (event) => {
     const searchForm = document.getElementById('search__form');
     searchForm.addEventListener('submit', async (event) => {
