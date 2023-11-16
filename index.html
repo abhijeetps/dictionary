@@ -17,7 +17,20 @@
     />
   </head>
   <body>
-    <header></header>
+    <header>
+      <nav>
+        <span id="brand">
+          <button id="home"><i class="fa-solid fa-book-bookmark"></i></button>
+          <h1>Dictionary</h1>
+        </span>
+        <span id="menu">
+          <button id="showFavourites"><i class="fa-solid fa-star"></i></button>
+          <button id="toggleTheme">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+          </button>
+        </span>
+      </nav>
+    </header>
     <main>
       <form id="search__form">
         <label for="search__input" id="search__label">Search: </label>
@@ -35,7 +48,9 @@
         Made with <i class="fa-solid fa-heart"></i>
         by
         <address>
-          <a href="https://abhijeetps.tech">Abhijeet Singh</a>
+          <a id="author" target="_blank" href="https://abhijeetps.tech">
+            Abhijeet Singh
+          </a>
         </address>
       </span>
     </footer>
