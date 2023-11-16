@@ -26,8 +26,7 @@ const clearContent = (element) => addContent(element, '');
 const createElement = (element) => document.createElement(element);
 const setAttribute = (element, property, value) =>
   element.setAttribute(property, value);
-const addClass = (element, className) =>
-  setAttribute(element, 'class', className);
+const addClass = (element, className) => element.classList.add(className);
 const addId = (element, id) => setAttribute(element, 'id', id);
 
 const noSearchResultDisplay = () => {
