@@ -27,6 +27,7 @@ const createElement = (element) => document.createElement(element);
 const setAttribute = (element, property, value) =>
   element.setAttribute(property, value);
 const addClass = (element, className) => element.classList.add(className);
+const removeClass = (element, className) => element.classList.remove(className);
 const addId = (element, id) => setAttribute(element, 'id', id);
 
 const noSearchResultDisplay = () => {
@@ -71,17 +72,17 @@ const searchResultDisplay = (data) => {
     addClass(pDefinition, 'definition');
     addContent(pDefinition, definition);
 
-    const examplesUL = createElement('ul');
+    const examplesUl = createElement('ul');
+    addClass(examplesUl, 'examples');
     examples &&
       examples.forEach((example) => {
         const exampleLi = createElement('li');
-        addClass(exampleLi, 'example');
         addContent(exampleLi, example);
-        examplesUL.appendChild(exampleLi);
+        examplesUl.appendChild(exampleLi);
       });
     li.appendChild(pPartOfSpeech);
     li.appendChild(pDefinition);
-    li.appendChild(examplesUL);
+    li.appendChild(examplesUl);
     ul.appendChild(li);
   });
 };
@@ -139,4 +140,85 @@ const init = () => {
   });
 };
 
+const changeTheme = (currentTheme) => {
+  const lightTheme = 'light';
+  if (currentTheme === 'dark') {
+    const body = document.getElementsByTagName('body')[0];
+    addClass(body, lightTheme);
+    const brandIcon = document.getElementsByClassName('fa-book-bookmark')[0];
+    addClass(brandIcon, lightTheme);
+    const brand = document.getElementById('brand');
+    addClass(brand, lightTheme);
+    const circleHalfStroke = document.getElementsByClassName(
+      'fa-circle-half-stroke'
+    )[0];
+    addClass(circleHalfStroke, lightTheme);
+    const main = document.getElementsByTagName('main')[0];
+    addClass(main, lightTheme);
+    const searchForm = document.getElementById('search__form');
+    addClass(searchForm, lightTheme);
+    const searchInput = document.getElementById('search__input');
+    addClass(searchInput, lightTheme);
+    const searchButton = document.getElementById('search__button');
+    addClass(searchButton, lightTheme);
+    const searchResult = document.getElementById('search__result');
+    addClass(searchResult, lightTheme);
+    const informaticMessage = document.getElementById('informaticMessage');
+    informaticMessage && addClass(informaticMessage, lightTheme);
+    const word = document.getElementById('word');
+    word && addClass(word, lightTheme);
+    const examples = document.getElementsByClassName('examples');
+    for (const example of examples) {
+      addClass(example, lightTheme);
+    }
+    const footer = document.getElementById('footer');
+    addClass(footer, lightTheme);
+    const author = document.getElementById('author');
+    addClass(author, lightTheme);
+  } else if (currentTheme === 'light') {
+    const body = document.getElementsByTagName('body')[0];
+    removeClass(body, lightTheme);
+    const brandIcon = document.getElementsByClassName('fa-book-bookmark')[0];
+    removeClass(brandIcon, lightTheme);
+    const brand = document.getElementById('brand');
+    removeClass(brand, lightTheme);
+    const circleHalfStroke = document.getElementsByClassName(
+      'fa-circle-half-stroke'
+    )[0];
+    removeClass(circleHalfStroke, lightTheme);
+    const main = document.getElementsByTagName('main')[0];
+    removeClass(main, lightTheme);
+    const searchForm = document.getElementById('search__form');
+    removeClass(searchForm, lightTheme);
+    const searchInput = document.getElementById('search__input');
+    removeClass(searchInput, lightTheme);
+    const searchButton = document.getElementById('search__button');
+    removeClass(searchButton, lightTheme);
+    const searchResult = document.getElementById('search__result');
+    removeClass(searchResult, lightTheme);
+    const informaticMessage = document.getElementById('informaticMessage');
+    informaticMessage && removeClass(informaticMessage, lightTheme);
+    const word = document.getElementById('word');
+    word && removeClass(word, lightTheme);
+    const examples = document.getElementsByClassName('examples');
+    for (const example of examples) {
+      removeClass(example, lightTheme);
+    }
+    const footer = document.getElementById('footer');
+    removeClass(footer, lightTheme);
+    const author = document.getElementById('author');
+    removeClass(author, lightTheme);
+  }
+};
+
+const watchTheme = () => {
+  const toggleThemeButton = document.getElementById('toggleTheme');
+  toggleThemeButton.addEventListener('click', () => {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    changeTheme(currentTheme);
+    localStorage.setItem('theme', currentTheme === 'light' ? 'dark' : 'light');
+  });
+};
+
 init();
+watchTheme();
