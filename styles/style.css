@@ -1,11 +1,22 @@
+:root {
+  --darkest: #212121;
+  --dark: #424242;
+  --less-dark: #757575;
+  --primary-dark: #4dd0e1;
+  --primary-light: #00acc1;
+  --lightest: #fafafa;
+  --light: #f5f5f5;
+  --less-light: #e0e0e0;
+  --dark-heart: #e53935;
+  --light-heart: #e53935;
+}
+
 body {
   font-family: 'Inter', sans-serif;
   background-image: linear-gradient(
     to right bottom,
-    #b6fffa,
-    #98e4ff,
-    #80b3ff,
-    #687eff
+    var(--darkest),
+    var(--dark)
   );
   min-height: 100vh;
   width: auto;
@@ -19,7 +30,7 @@ main {
   min-height: 80vh;
   height: auto;
   margin: 0 auto;
-  background-color: #687eff;
+  background-color: var(--dark);
   padding: 20px;
   border-radius: 5px;
 }
@@ -27,6 +38,7 @@ main {
 #search__form {
   display: flex;
   justify-content: center;
+  color: var(--lightest);
 }
 
 #search__label {
@@ -37,19 +49,19 @@ main {
 
 #search__input {
   border: none;
-  border-bottom: 1px solid #b6fffa;
+  border-bottom: 1px solid var(--darkest);
   background-color: inherit;
   min-width: 50%;
   max-width: 80%;
   font-size: 24px;
-  color: #b6fffa;
+  color: var(--primary-dark);
   padding: 0px 10px;
   text-align: center;
 }
 
 #search__input:focus {
   outline: none;
-  border-bottom: 1px solid #80b3ff;
+  border-bottom: 1px solid var(--primary-dark);
   background-color: inherit;
 }
 
@@ -58,11 +70,12 @@ main {
   border: none;
   font-size: 16px;
   padding: 0 10px;
+  color: var(--lightest);
 }
 
 #search__button:hover {
   background-color: transparent;
-  color: #b6fffa;
+  color: var(--primary-dark);
   transition: color 0.5s ease-in;
   border: none;
   font-size: 16px;
@@ -72,17 +85,19 @@ main {
   padding: 10px;
   word-break: break-word;
   text-align: justify;
+  color: var(--light);
 }
 
 #informaticMessage {
   text-align: center;
+  color: var(--lightest);
 }
 
 #word {
   font-size: 32px;
   font-weight: bold;
   text-decoration-line: underline;
-  text-decoration-color: #b6fffa;
+  text-decoration-color: var(--primary-dark);
 }
 
 #word:after {
@@ -109,24 +124,32 @@ main {
 
 .example {
   font-size: 16px;
-  color: #1e1e1e;
+  color: var(--less-light);
   font-style: italic;
 }
 
 #footer {
   display: flex;
+  font-style: normal;
+  color: var(--light);
   justify-content: center;
   margin-top: 10px;
 }
 
-.fa-code {
-  color: cyan;
+#author {
+  color: var(--light);
+  font-style: normal;
+  padding-left: 5px;
+}
+
+.fa-heart {
+  color: var(--light-heart);
   padding-left: 5px;
   padding-right: 5px;
 }
 
-.fa-heart {
-  color: red;
+.light.fa-heart {
+  color: var(--dark-heart);
   padding-left: 5px;
   padding-right: 5px;
 }
