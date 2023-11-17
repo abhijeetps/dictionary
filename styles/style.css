@@ -86,6 +86,16 @@ nav {
   font-size: 24px;
 }
 
+.fa-bookmark {
+  color: var(--primary-dark);
+  font-size: 24px;
+}
+
+.fa-bookmark.light {
+  color: var(--primary-light);
+  font-size: 24px;
+}
+
 .fa-circle-half-stroke,
 .fa-book-bookmark {
   font-size: 24px;
@@ -227,6 +237,11 @@ main.light {
 #informaticMessage.light {
   text-align: center;
   color: var(--darkest);
+}
+
+.titleSpan {
+  display: flex;
+  justify-content: space-between;
 }
 
 #word {
