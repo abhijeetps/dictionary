@@ -292,6 +292,21 @@ main.light {
   font-style: italic;
 }
 
+#bookmarkResult {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fa-magnifying-glass-arrow-right {
+  color: var(--primary-dark);
+  font-size: 24px;
+}
+
+.fa-magnifying-glass-arrow-right.light {
+  color: var(--primary-light);
+  font-size: 24px;
+}
+
 #footer {
   display: flex;
   font-style: normal;
