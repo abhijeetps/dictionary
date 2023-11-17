@@ -1,3 +1,9 @@
+const MAX_FAVOURITES = 10;
+const THEME_KEY = 'theme';
+const FAVOURITES_KEY = 'favourites';
+const LIGHT_THEME_VALUE = 'light';
+const DARK_THEME_VALUE = 'dark';
+
 const RAPID_API_KEY = '9a7e41dc9amsh86590bf61d0335dp16d3bdjsn5b091f741367';
 
 const fetchResult = async (searchKeyword) => {
@@ -21,14 +27,69 @@ const fetchResult = async (searchKeyword) => {
 };
 
 const sanitize = (value) => value.trim();
+
 const addContent = (element, text) => (element.innerHTML = text);
+
 const clearContent = (element) => addContent(element, '');
+
 const createElement = (element) => document.createElement(element);
+
 const setAttribute = (element, property, value) =>
   element.setAttribute(property, value);
+
 const addClass = (element, className) => element.classList.add(className);
+
 const removeClass = (element, className) => element.classList.remove(className);
+
 const addId = (element, id) => setAttribute(element, 'id', id);
+
+const getThemeValue = () => localStorage.getItem(THEME_KEY) || DARK_THEME_VALUE;
+
+const setThemeKey = (theme) => localStorage.setItem(THEME_KEY, theme);
+
+const getFavouriteList = () => {
+  const favourites = localStorage.getItem(FAVOURITES_KEY) || '[]';
+  return JSON.parse(favourites);
+};
+
+const setFavouriteList = (favourites) => {
+  localStorage.setItem(FAVOURITES_KEY, JSON.stringify(favourites));
+};
+
+const addWordToFavouriteList = (word) => {
+  const favourites = getFavouriteList();
+  favourites.push(word);
+  if (favourites.length > MAX_FAVOURITES) {
+    favourites.shift();
+  }
+  setFavouriteList(favourites);
+};
+
+const removeWordFromFavouriteList = (word) => {
+  const favourites = getFavouriteList();
+  const idx = favourites.indexOf(word);
+  if (idx > -1) {
+    favourites.splice(idx, 1);
+  }
+  setFavouriteList(favourites);
+};
+
+const isFavouriteWord = (word) => {
+  const favourites = getFavouriteList();
+  return favourites.includes(word);
+};
+
+const addBookmark = () => {
+  const bookmarkIcon = document.getElementsByClassName('fa-bookmark')[0];
+  removeClass(bookmarkIcon, 'fa-regular');
+  addClass(bookmarkIcon, 'fa-solid');
+};
+
+const removeBookmark = () => {
+  const bookmarkIcon = document.getElementsByClassName('fa-bookmark')[0];
+  removeClass(bookmarkIcon, 'fa-solid');
+  addClass(bookmarkIcon, 'fa-regular');
+};
 
 const noSearchResultDisplay = () => {
   const mainContent = document.getElementById('search__result');
@@ -49,11 +110,28 @@ const searchResultDisplay = (data) => {
 
   clearContent(mainContent);
 
+  const titleSpan = createElement('span');
+  addClass(titleSpan, 'titleSpan');
+
   const wordElement = createElement('h1');
   addId(wordElement, 'word');
   addContent(wordElement, word);
+  titleSpan.appendChild(wordElement);
 
-  mainContent.appendChild(wordElement);
+  const favouriteButton = createElement('button');
+  addId(favouriteButton, 'addToFavourite');
+  const bookmarkIcon = createElement('i');
+  addClass(bookmarkIcon, 'fa-bookmark');
+  if (isFavouriteWord(word)) {
+    addClass(bookmarkIcon, 'fa-solid');
+  } else {
+    addClass(bookmarkIcon, 'fa-regular');
+  }
+  favouriteButton.appendChild(bookmarkIcon);
+  titleSpan.appendChild(favouriteButton);
+  mainContent.appendChild(titleSpan);
+
+  watchFavourite();
 
   const ul = createElement('ul');
   addClass(ul, 'results');
@@ -115,9 +193,11 @@ const searchingDisplay = () => {
 };
 
 const initTheme = () => {
-  const currentTheme = localStorage.getItem('theme') || 'dark';
-  if (currentTheme === 'light') {
-    changeTheme('dark');
+  const currentTheme = getThemeValue();
+  if (currentTheme === LIGHT_THEME_VALUE) {
+    setTheme(LIGHT_THEME_VALUE);
+  } else if (currentTheme === DARK_THEME_VALUE) {
+    setTheme(DARK_THEME_VALUE);
   }
 };
 
@@ -140,91 +220,126 @@ const init = () => {
 
         if (data && data.results) {
           searchResultDisplay(data);
+          setTheme(getThemeValue());
         } else {
           noSearchResultDisplay();
+          setTheme(getThemeValue());
         }
       }
     });
   });
 };
 
-const changeTheme = (currentTheme) => {
-  const lightTheme = 'light';
-  if (currentTheme === 'dark') {
-    const body = document.getElementsByTagName('body')[0];
-    addClass(body, lightTheme);
-    const brandIcon = document.getElementsByClassName('fa-book-bookmark')[0];
-    addClass(brandIcon, lightTheme);
-    const brand = document.getElementById('brand');
-    addClass(brand, lightTheme);
-    const circleHalfStroke = document.getElementsByClassName(
-      'fa-circle-half-stroke'
-    )[0];
-    addClass(circleHalfStroke, lightTheme);
-    const main = document.getElementsByTagName('main')[0];
-    addClass(main, lightTheme);
-    const searchForm = document.getElementById('search__form');
-    addClass(searchForm, lightTheme);
-    const searchInput = document.getElementById('search__input');
-    addClass(searchInput, lightTheme);
-    const searchButton = document.getElementById('search__button');
-    addClass(searchButton, lightTheme);
-    const searchResult = document.getElementById('search__result');
-    addClass(searchResult, lightTheme);
-    const informaticMessage = document.getElementById('informaticMessage');
-    informaticMessage && addClass(informaticMessage, lightTheme);
-    const word = document.getElementById('word');
-    word && addClass(word, lightTheme);
-    const examples = document.getElementsByClassName('examples');
-    for (const example of examples) {
-      addClass(example, lightTheme);
-    }
-    const footer = document.getElementById('footer');
-    addClass(footer, lightTheme);
-    const author = document.getElementById('author');
-    addClass(author, lightTheme);
-  } else if (currentTheme === 'light') {
-    const body = document.getElementsByTagName('body')[0];
-    removeClass(body, lightTheme);
-    const brandIcon = document.getElementsByClassName('fa-book-bookmark')[0];
-    removeClass(brandIcon, lightTheme);
-    const brand = document.getElementById('brand');
-    removeClass(brand, lightTheme);
-    const circleHalfStroke = document.getElementsByClassName(
-      'fa-circle-half-stroke'
-    )[0];
-    removeClass(circleHalfStroke, lightTheme);
-    const main = document.getElementsByTagName('main')[0];
-    removeClass(main, lightTheme);
-    const searchForm = document.getElementById('search__form');
-    removeClass(searchForm, lightTheme);
-    const searchInput = document.getElementById('search__input');
-    removeClass(searchInput, lightTheme);
-    const searchButton = document.getElementById('search__button');
-    removeClass(searchButton, lightTheme);
-    const searchResult = document.getElementById('search__result');
-    removeClass(searchResult, lightTheme);
-    const informaticMessage = document.getElementById('informaticMessage');
-    informaticMessage && removeClass(informaticMessage, lightTheme);
-    const word = document.getElementById('word');
-    word && removeClass(word, lightTheme);
-    const examples = document.getElementsByClassName('examples');
-    for (const example of examples) {
-      removeClass(example, lightTheme);
-    }
-    const footer = document.getElementById('footer');
-    removeClass(footer, lightTheme);
-    const author = document.getElementById('author');
-    removeClass(author, lightTheme);
+const addLightTheme = () => {
+  const body = document.getElementsByTagName('body')[0];
+  addClass(body, LIGHT_THEME_VALUE);
+  const brandIcon = document.getElementsByClassName('fa-book-bookmark')[0];
+  addClass(brandIcon, LIGHT_THEME_VALUE);
+  const brand = document.getElementById('brand');
+  addClass(brand, LIGHT_THEME_VALUE);
+  const circleHalfStroke = document.getElementsByClassName(
+    'fa-circle-half-stroke'
+  )[0];
+  addClass(circleHalfStroke, LIGHT_THEME_VALUE);
+  const main = document.getElementsByTagName('main')[0];
+  addClass(main, LIGHT_THEME_VALUE);
+  const searchForm = document.getElementById('search__form');
+  addClass(searchForm, LIGHT_THEME_VALUE);
+  const searchInput = document.getElementById('search__input');
+  addClass(searchInput, LIGHT_THEME_VALUE);
+  const searchButton = document.getElementById('search__button');
+  addClass(searchButton, LIGHT_THEME_VALUE);
+  const searchResult = document.getElementById('search__result');
+  addClass(searchResult, LIGHT_THEME_VALUE);
+  const bookmarkButton = document.getElementById('addToFavourite');
+  bookmarkButton && addClass(bookmarkButton, LIGHT_THEME_VALUE);
+  const informaticMessage = document.getElementById('informaticMessage');
+  informaticMessage && addClass(informaticMessage, LIGHT_THEME_VALUE);
+  const word = document.getElementById('word');
+  word && addClass(word, LIGHT_THEME_VALUE);
+  const examples = document.getElementsByClassName('examples');
+  for (const example of examples) {
+    addClass(example, LIGHT_THEME_VALUE);
+  }
+  const footer = document.getElementById('footer');
+  addClass(footer, LIGHT_THEME_VALUE);
+  const author = document.getElementById('author');
+  addClass(author, LIGHT_THEME_VALUE);
+};
+
+const removeLightTheme = () => {
+  const body = document.getElementsByTagName('body')[0];
+  removeClass(body, LIGHT_THEME_VALUE);
+  const brandIcon = document.getElementsByClassName('fa-book-bookmark')[0];
+  removeClass(brandIcon, LIGHT_THEME_VALUE);
+  const brand = document.getElementById('brand');
+  removeClass(brand, LIGHT_THEME_VALUE);
+  const circleHalfStroke = document.getElementsByClassName(
+    'fa-circle-half-stroke'
+  )[0];
+  removeClass(circleHalfStroke, LIGHT_THEME_VALUE);
+  const main = document.getElementsByTagName('main')[0];
+  removeClass(main, LIGHT_THEME_VALUE);
+  const searchForm = document.getElementById('search__form');
+  removeClass(searchForm, LIGHT_THEME_VALUE);
+  const searchInput = document.getElementById('search__input');
+  removeClass(searchInput, LIGHT_THEME_VALUE);
+  const searchButton = document.getElementById('search__button');
+  removeClass(searchButton, LIGHT_THEME_VALUE);
+  const searchResult = document.getElementById('search__result');
+  removeClass(searchResult, LIGHT_THEME_VALUE);
+  const bookmarkButton = document.getElementById('addToFavourite');
+  bookmarkButton && addClass(bookmarkButton, LIGHT_THEME_VALUE);
+  const informaticMessage = document.getElementById('informaticMessage');
+  informaticMessage && removeClass(informaticMessage, LIGHT_THEME_VALUE);
+  const word = document.getElementById('word');
+  word && removeClass(word, LIGHT_THEME_VALUE);
+  const examples = document.getElementsByClassName('examples');
+  for (const example of examples) {
+    removeClass(example, LIGHT_THEME_VALUE);
+  }
+  const footer = document.getElementById('footer');
+  removeClass(footer, LIGHT_THEME_VALUE);
+  const author = document.getElementById('author');
+  removeClass(author, LIGHT_THEME_VALUE);
+};
+
+const setTheme = (requiredTheme) => {
+  setThemeKey(requiredTheme);
+  if (requiredTheme === LIGHT_THEME_VALUE) {
+    addLightTheme();
+  } else if (requiredTheme === DARK_THEME_VALUE) {
+    removeLightTheme();
+  }
+};
+
+const toggleTheme = (currentTheme) => {
+  if (currentTheme === LIGHT_THEME_VALUE) {
+    setTheme(DARK_THEME_VALUE);
+  } else if (currentTheme === DARK_THEME_VALUE) {
+    setTheme(LIGHT_THEME_VALUE);
   }
 };
 
 const watchTheme = () => {
   const toggleThemeButton = document.getElementById('toggleTheme');
   toggleThemeButton.addEventListener('click', () => {
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    changeTheme(currentTheme);
-    localStorage.setItem('theme', currentTheme === 'light' ? 'dark' : 'light');
+    const currentTheme = getThemeValue();
+    toggleTheme(currentTheme);
+  });
+};
+
+const watchFavourite = () => {
+  const favouriteButton = document.getElementById('addToFavourite');
+  favouriteButton.addEventListener('click', () => {
+    const word = document.getElementById('word').innerHTML;
+    if (isFavouriteWord(word)) {
+      removeWordFromFavouriteList(word);
+      removeBookmark();
+    } else if (!isFavouriteWord(word)) {
+      addWordToFavouriteList(word);
+      addBookmark();
+    }
   });
 };
 
