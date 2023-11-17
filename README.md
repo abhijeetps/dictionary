@@ -1,6 +1,6 @@
 # Dictionary
 
-The Dictionary app let's you search for words and helps your show search results.
+The Dictionary app let's you search for words and helps you show search results.
 
 ## Features
 
