@@ -118,8 +118,8 @@ const searchResultDisplay = (data) => {
   addContent(wordElement, word);
   titleSpan.appendChild(wordElement);
 
-  const favouriteButton = createElement('button');
-  addId(favouriteButton, 'addToFavourite');
+  const bookmarkButton = createElement('button');
+  addId(bookmarkButton, 'addToFavourite');
   const bookmarkIcon = createElement('i');
   addClass(bookmarkIcon, 'fa-bookmark');
   if (isFavouriteWord(word)) {
@@ -127,11 +127,11 @@ const searchResultDisplay = (data) => {
   } else {
     addClass(bookmarkIcon, 'fa-regular');
   }
-  favouriteButton.appendChild(bookmarkIcon);
-  titleSpan.appendChild(favouriteButton);
+  bookmarkButton.appendChild(bookmarkIcon);
+  titleSpan.appendChild(bookmarkButton);
   mainContent.appendChild(titleSpan);
 
-  watchFavourite();
+  watchBookmark();
 
   const ul = createElement('ul');
   addClass(ul, 'results');
@@ -329,9 +329,9 @@ const watchTheme = () => {
   });
 };
 
-const watchFavourite = () => {
-  const favouriteButton = document.getElementById('addToFavourite');
-  favouriteButton.addEventListener('click', () => {
+const watchBookmark = () => {
+  const bookmarkButton = document.getElementById('addToFavourite');
+  bookmarkButton.addEventListener('click', () => {
     const word = document.getElementById('word').innerHTML;
     if (isFavouriteWord(word)) {
       removeWordFromFavouriteList(word);
@@ -343,5 +343,45 @@ const watchFavourite = () => {
   });
 };
 
+const searchForBookmarkWord = (element, word) => {
+  element.addEventListener('click', () => {
+    document.getElementById('search__input').value = word;
+    document.getElementById('search__button').click();
+  });
+};
+
+const showFavourites = () => {
+  const showFavouritesButton = document.getElementById('showFavourites');
+  showFavouritesButton.addEventListener('click', () => {
+    const favourites = getFavouriteList();
+    favourites.reverse();
+    const mainContent = document.getElementById('search__result');
+    clearContent(mainContent);
+
+    const div = createElement('div');
+    for (word of favourites) {
+      const span = createElement('span');
+      addId(span, 'bookmarkResult');
+
+      const wordElement = createElement('h1');
+      addId(wordElement, 'word');
+      addContent(wordElement, word);
+      span.appendChild(wordElement);
+
+      const searchButton = createElement('button');
+      addId(searchButton, 'searchButton');
+      const searchIcon = createElement('i');
+      addClass(searchIcon, 'fa-solid');
+      addClass(searchIcon, 'fa-magnifying-glass-arrow-right');
+      searchButton.appendChild(searchIcon);
+      span.appendChild(searchButton);
+      searchForBookmarkWord(searchButton, word);
+      div.appendChild(span);
+    }
+    mainContent.appendChild(div);
+  });
+};
+
 init();
 watchTheme();
+showFavourites();
