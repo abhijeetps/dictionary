@@ -239,6 +239,20 @@ main.light {
   color: var(--darkest);
 }
 
+#loading {
+  text-align: center;
+  display: inline-block;
+  width: 100%;
+  color: var(--primary-dark);
+  font-size: 24px;
+}
+
+#loading.light {
+  text-align: center;
+  color: var(--primary-light);
+  font-size: 24px;
+}
+
 .titleSpan {
   display: flex;
   justify-content: space-between;
