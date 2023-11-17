@@ -185,11 +185,12 @@ const searchingDisplay = () => {
   const mainContent = document.getElementById('search__result');
   clearContent(mainContent);
 
-  const searchingMessage = 'Searching...';
-  const searchingMessageElement = createElement('p');
-  addId(searchingMessageElement, 'informaticMessage');
-  addContent(searchingMessageElement, searchingMessage);
-  mainContent.appendChild(searchingMessageElement);
+  const loadingIcon = createElement('i');
+  addId(loadingIcon, 'loading');
+  addClass(loadingIcon, 'fa-solid');
+  addClass(loadingIcon, 'fa-spinner');
+  addClass(loadingIcon, 'fa-spin-pulse');
+  mainContent.appendChild(loadingIcon);
 };
 
 const initTheme = () => {
@@ -387,6 +388,9 @@ const resetView = () => {
   homeButton.addEventListener('click', () => {
     const mainContent = document.getElementById('search__result');
     clearContent(mainContent);
+    const searchInput = document.getElementById('search__input');
+    searchInput.value = '';
+    searchInput.focus();
 
     const p = createElement('p');
     addId(p, 'informaticMessage');
