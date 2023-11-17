@@ -382,6 +382,20 @@ const showFavourites = () => {
   });
 };
 
+const resetView = () => {
+  const homeButton = document.getElementById('home');
+  homeButton.addEventListener('click', () => {
+    const mainContent = document.getElementById('search__result');
+    clearContent(mainContent);
+
+    const p = createElement('p');
+    addId(p, 'informaticMessage');
+    addContent(p, 'Enter a word and click on search button.');
+    mainContent.appendChild(p);
+  });
+};
+
 init();
+resetView();
 watchTheme();
 showFavourites();
